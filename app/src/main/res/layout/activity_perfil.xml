@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="android.dudu9999.com.qualprova.PerfilActivity">
+    tools:context="br.dudu9999.com.qualprova.PerfilActivity">
 
     <ImageView
         android:id="@+id/imageView"

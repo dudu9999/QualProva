@@ -1,4 +1,21 @@
 <resources>
     <string name="app_name">QualProva</string>
     <string name="title_activity_tela_inicio">Inicio</string>
+
+    <string name="alert_titulo">Confirmação</string>
+    <string name="alert_alterar_msg">Voce tem certeza que deseja alterar</string>
+    <string name="alert_botao_sim">Sim</string>
+    <string name="alert_botao_nao">Não</string>
+
+    <string name="toast_sucesso_adicionar">Prova Adicionada com sucesso!</string>
+    <string name="toast_erro">Preencha os dados corretamente</string>
+    <string name="toast_sucesso_alterar">Prova alterada com sucesso</string>
+
+
+
+    <string-array name="edtTipo">
+        <item>Aluno</item>
+        <item>Professor</item>
+    </string-array>
+
 </resources>

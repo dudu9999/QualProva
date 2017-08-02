@@ -37,168 +37,117 @@ import br.dudu9999.com.qualprova.Fragmentos.*;
 import br.dudu9999.com.qualprova.R;
 
 public class AdcionaActivity extends AppCompatActivity {
-    private RequestQueue mVolleyQueue;
-    private Boolean edit = false;
-    private Prova prova;
-    private Button mBtDeletar;
-    private RequestQueue mVolleyRequest;
-    private DatabaseReference databaseReferencia = FirebaseDatabase.getInstance().getReference();
-    private DatabaseReference provaReferencia = databaseReferencia.child("provas");
+        private RequestQueue mVolleyQueue;
+        private Boolean edit = false;
+        private Prova prova;
+        private Button mBtDeletar;
+        private RequestQueue mVolleyRequest;
+    //    private DatabaseReference databaseReferencia = FirebaseDatabase.getInstance().getReference();
+    //    private DatabaseReference provaReferencia = databaseReferencia.child("provas");
+
+
+        private Spinner spTippo;
+        private EditText txtMateriaProva;
+        private EditText txtColegioProva;
+        private EditText txtTurmaProva;
+        private EditText txtConteudoProva;
+        private EditText txtDataProva;
+        private Button btn_enviar_prova;
 
 
 
-    private EditText txtMateriaProva;
-    private EditText txtColegioProva;
-    private EditText txtTurmaProva;
-    private EditText txtConteudoProva;
-    private EditText txtDataProva;
-    private Button btn_enviar_prova;
+        private FirebaseAuth firebaseAuth;
 
 
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_adciona);
 
-    private FirebaseAuth firebaseAuth;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adciona);
-
-        mVolleyRequest = Volley.newRequestQueue(this);
+            mVolleyRequest = Volley.newRequestQueue(this);
 
 
-        txtMateriaProva = (EditText) findViewById(R.id.edt_materia_prova);
-        txtColegioProva = (EditText) findViewById(R.id.edt_colegio_prova);
-        txtTurmaProva = (EditText) findViewById(R.id.edt_turma_prova);
-        txtConteudoProva = (EditText) findViewById(R.id.edt_conteudo_prova);
-        txtDataProva = (EditText) findViewById(R.id.edt_data_prova);
-        btn_enviar_prova = (Button) findViewById(R.id.btn_enviar_prova);
+            txtMateriaProva = (EditText) findViewById(R.id.edt_materia_prova);
+            txtColegioProva = (EditText) findViewById(R.id.edt_colegio_prova);
+            txtTurmaProva = (EditText) findViewById(R.id.edt_turma_prova);
+            txtConteudoProva = (EditText) findViewById(R.id.edt_conteudo_prova);
+            txtDataProva = (EditText) findViewById(R.id.edt_data_prova);
+            btn_enviar_prova = (Button) findViewById(R.id.btn_enviar_prova);
 
-        //Firebase
-        FirebaseApp.initializeApp(AdcionaActivity.this);
-        final FirebaseDatabase db = FirebaseDatabase.getInstance();
-        final DatabaseReference banco = db.getReference("banco").child("Provas");
-
-
-        btn_enviar_prova.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(
-                        !txtMateriaProva.getText().toString().isEmpty() &&
-                        !txtColegioProva.getText().toString().isEmpty() &&
-                        !txtTurmaProva.getText().toString().isEmpty() &&
-                        !txtConteudoProva.getText().toString().isEmpty() &&
-                        !txtDataProva.getText().toString().isEmpty()) {
-
-                    //Exemplo de cast
-                    //p.setMateria(Integer.parseInt(txtMateriaProva.getText().toString()));
-                    //p.setColegio(Double.parseDouble(etRenda.getText().toString()));
+            //Firebase
+            FirebaseApp.initializeApp(AdcionaActivity.this);
+            final FirebaseDatabase db = FirebaseDatabase.getInstance();
+            final DatabaseReference banco = db.getReference("banco").child("Provas");
 
 
-                    Prova p = new Prova();
-                    p.setMateria(txtMateriaProva.getText().toString());
-                    p.setColegio(txtColegioProva.getText().toString());
-                    p.setTurmas(txtTurmaProva.getText().toString());
-                    p.setConteudo(txtConteudoProva.getText().toString());
-                    p.setData(txtDataProva.getText().toString());
+            //pegando objeto da telainicio
+            final String acao = getIntent().getStringExtra("acao");
+            final Prova p = (Prova) getIntent().getSerializableExtra("prova");
 
-                    //Alterando através da chave(key) no firebase setando o novo valor
-                    banco.child(p.getId()).setValue(p);
-
-
-                    //Enviando para o Firebase
-                    banco.push().setValue(p);
-
-                    limpar();
-
-                    //Toast.makeText(AdcionaActivity.this, "Enviado com sucesso",Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getBaseContext(),getResources().getString(R.string.toast_sucesso_adicionar), Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(getBaseContext(),getResources().getString(R.string.toast_erro),Toast.LENGTH_LONG).show();
-                    //Toast.makeText(AdcionaActivity.this, "Erro",Toast.LENGTH_SHORT).show();
-                }
+            if(acao.equalsIgnoreCase("alterar")) {
+                //preenchendo os campos
+                txtMateriaProva.setText(p.getMateria());
+                txtColegioProva.setText(p.getColegio());
+                txtTurmaProva.setText(p.getTurmas());
+                txtConteudoProva.setText(p.getConteudo());
+                txtDataProva.setText(p.getData());
             }
-        });
+
+            btn_enviar_prova.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(acao.equalsIgnoreCase("cadastrar")
+//                            &&
+//                            !txtMateriaProva.getText().toString().isEmpty() &&
+//                            !txtColegioProva.getText().toString().isEmpty() &&
+//                            !txtTurmaProva.getText().toString().isEmpty() &&
+//                            !txtConteudoProva.getText().toString().isEmpty() &&
+//                            !txtDataProva.getText().toString().isEmpty()
+                      ) {
+
+                        //Exemplo de cast
+                        //p.setMateria(Integer.parseInt(txtMateriaProva.getText().toString()));
+                        //p.setColegio(Double.parseDouble(etRenda.getText().toString()));
+
+                        Prova p = new Prova();
+                        p.setTipo(txtDataProva.getText().toString());
+                        p.setMateria(txtMateriaProva.getText().toString());
+                        p.setColegio(txtColegioProva.getText().toString());
+                        p.setTurmas(txtTurmaProva.getText().toString());
+                        p.setConteudo(txtConteudoProva.getText().toString());
+                        p.setData(txtDataProva.getText().toString());
 
 
+                        if(acao.equalsIgnoreCase("alterar;")) {
 
-//        lvProvas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//                //objeto que tem a key
-//                final int posSelec = i;
-//
-//                //Buscando objeto selecionado
-//                final Prova p = provas.get(i);
-//
-//                AlertDialog.Builder msg = new AlertDialog.Builder(AdcionaActivity.this);
-//                LayoutInflater inflater = getLayoutInflater();
-//                View editarCliente = inflater.inflate(R.layout.activity_editar_cliente, null);
-//                msg.setView(editarCliente);
-//
-////
-//                final EditText txtMateriaProva = (EditText) findViewById(R.id.edt_materia_prova);
-//                final EditText txtColegioProva = (EditText) findViewById(R.id.edt_colegio_prova);
-//                final EditText txtTurmaProva = (EditText) findViewById(R.id.edt_turma_prova);
-//                final EditText txtConteudoProva = (EditText) findViewById(R.id.edt_conteudo_prova);
-//                final EditText txtDataProva = (EditText) findViewById(R.id.edt_data_prova);
-//
-//
-//
-//
-//                txtMateriaProva.setText(p.getMateria().toString());
-//                txtColegioProva.setText(p.getColegio().toString());
-//                txtTurmaProva.setText(p.getTurmas().toString());
-//                txtConteudoProva.setText(p.getConteudo().toString());
-//                txtDataProva.setText(p.getData().toString());
-//
-//                msg.setTitle(getResources().getString(R.string.alert_titulo));
-//                msg.setMessage(getResources().getString(R.string.alert_alterar_msg));
-//                msg.setPositiveButton(getResources().getString(R.string.alert_botao_sim), new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                        //Recebendo dados alterados
-//                        p.setMateria(txtMateriaProva.getText().toString());
-//                        p.setColegio(txtColegioProva.getText().toString());
-//                        p.setTurmas(txtTurmaProva.getText().toString());
-//                        p.setConteudo(txtConteudoProva.getText().toString());
-//                        p.setData(txtDataProva.getText().toString());
-//
-//
-//
-//                        //p.setNome(etLogin.getText().toString());
-//                        //p.setRG(Integer.parseInt(etRG.getText().toString()));
-//                        //p.setRenda(Double.parseDouble(etRenda.getText().toString()));
-//
-//                        //Alterando através da chave(key) no firebase setando o novo valor
-//                        banco.child(p.getId()).setValue(p);
-//
-//                        Toast.makeText(
-//                                getBaseContext(),
-//                                getResources().getString(R.string.toast_sucesso_alterar),
-//                                Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//                msg.setNegativeButton(getResources().getString(R.string.alert_botao_nao), null);
-//                msg.show();
-//            }
-//        });
+                            //Alterando através da chave(key) no firebase setando o novo valor
+                            banco.child(p.getId()).setValue(p);
+                        } else {
+                            //Enviando para o Firebase
+                             banco.push().setValue(p);
+                        }
+
+                       // limpar();
+
+                        Toast.makeText(getBaseContext(),getResources().getString(R.string.toast_sucesso_adicionar), Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getBaseContext(),getResources().getString(R.string.toast_erro),Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
 
 
+        }//fefha oncreate
 
 
-    }//fefha oncreate
-
-
-    private void limpar(){
-        txtMateriaProva.setText(null);
-        txtColegioProva.setText(null);
-        txtTurmaProva.setText(null);
-        txtConteudoProva.setText(null);
-        txtDataProva.setText(null);
-    }
+        private void limpar(){
+            txtMateriaProva.setText(null);
+            txtColegioProva.setText(null);
+            txtTurmaProva.setText(null);
+            txtConteudoProva.setText(null);
+            txtDataProva.setText(null);
+        }
 
 } //fecha classe

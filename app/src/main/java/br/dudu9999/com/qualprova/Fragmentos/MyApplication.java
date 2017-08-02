@@ -3,11 +3,12 @@ package br.dudu9999.com.qualprova.Fragmentos;
 import android.app.Application;
 
 /**
- * Created by thiagocury on 31/12/16.
+ * Created by Eduardo on 01/06/17.
  */
 
 public class MyApplication extends Application {
 
+    public static final String MY_PREFS_NAME = "MeusDados";
     private Prova prov = null;
     private Usuario user = null;
 

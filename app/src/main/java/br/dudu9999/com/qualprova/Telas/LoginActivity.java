@@ -158,6 +158,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                     if (task.isSuccessful()) {
 
+                                        //Salvando localmente(setando cliente)
+                                        ((MyApplication)getApplication()).setUser(userLocal);
+
                                         Toast.makeText(
                                                 getBaseContext(),
                                                 "Conta criada com sucesso!",

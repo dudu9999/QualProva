@@ -7,15 +7,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import br.dudu9999.com.qualprova.Fragmentos.MyApplication;
 import br.dudu9999.com.qualprova.R;
 
 public class PerfilActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private TextView tvEmail;
+    private TextView tvSenha;
+    private TextView tvNome;
+    private TextView tvCpf;
+    private TextView tvColegio;
+    private TextView tvTurma;
 
-    // private TextView tvSenha;
+
 
 
     @Override
@@ -23,13 +32,24 @@ public class PerfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        //tvEmail = (TextView) findViewById(R.id.emailP);
+        tvEmail = (TextView) findViewById(R.id.tvEmail);
+        tvSenha = (TextView) findViewById(R.id.tvSenha);
+        tvNome = (TextView) findViewById(R.id.tvNome);
+        tvCpf = (TextView) findViewById(R.id.tvCpf);
+        tvColegio = (TextView) findViewById(R.id.tvColegio);
+        tvTurma = (TextView) findViewById(R.id.tvTurma);
 
-        //tvSenha = (TextView) findViewById(R.id.senhaP);
 
-        //tvEmail.setText(getIntent().getExtras().getString("Email"));
 
-        // tvSenha.setText(getIntent().getExtras().getString("Senha"));
+
+        tvNome.setText(((MyApplication)getApplication()).getUser().getNome());
+        tvCpf.setText(((MyApplication)getApplication()).getUser().getCpf());
+        tvColegio.setText(((MyApplication)getApplication()).getUser().getColegio());
+        tvTurma.setText(((MyApplication)getApplication()).getUser().getTurma());
+        tvEmail.setText(((MyApplication)getApplication()).getUser().getEmail());
+        tvSenha.setText(((MyApplication)getApplication()).getUser().getSenha());
+
+        ///sairClick();
     }
 
     public void sairClick(View view) {

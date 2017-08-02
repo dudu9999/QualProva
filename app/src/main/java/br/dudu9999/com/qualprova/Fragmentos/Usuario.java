@@ -77,4 +77,5 @@ public class Usuario {
 
     public void setUID(String UID) { this.UID = UID; }
 
+
 }//fecha classe

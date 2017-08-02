@@ -2,6 +2,7 @@ package br.dudu9999.com.qualprova.Telas;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.github.rtoshiro.util.format.SimpleMaskFormatter;
+import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -64,6 +68,12 @@ public class CadastroActivity extends AppCompatActivity {
         txtTurma =       (EditText)  findViewById(R.id.edtTurma);
         btnCadastrar =   (Button)    findViewById(R.id.btnCadastrar);
 
+        //mascara para cpf
+        SimpleMaskFormatter cpfFormater = new SimpleMaskFormatter("NNN.NNN.NNN-NN");
+        MaskTextWatcher mtw = new MaskTextWatcher(txtCPF, cpfFormater);
+        txtCPF.addTextChangedListener(mtw);
+
+
         //buscando o usuario
         userLocal = ((MyApplication)getApplication()).getUser();
         //Log.d(TAG, "USUARIOLOCA"+ userLocal.toString());
@@ -73,7 +83,6 @@ public class CadastroActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(getBaseContext());
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         final DatabaseReference bd = db.getReference("banco");
-
 
 
 //        private DatabaseReference databaseReferencia = FirebaseDatabase.getInstance().getReference();
@@ -99,6 +108,9 @@ public class CadastroActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Usuario u = new Usuario();
 
+//                txtEmail = userLocal. setEmail();
+//                txtSenha = userLocal.setSenha();
+
                 u.setUID(userLocal.getUID());
                 u.setEmail(userLocal.getEmail());
                 u.setEmail(txtEmail.getText().toString());
@@ -108,16 +120,30 @@ public class CadastroActivity extends AppCompatActivity {
                 u.setCpf(txtCPF.getText().toString());
                 u.setTurma(txtTurma.getText().toString());
                 u.setTipo(txtTipo.getSelectedItem().toString());
-                bd.child("Usuarios").child(u.getUID()).setValue(u);
-                //bd.child("Usuarios").setValue(u);
 
-                limpar();
-                Toast.makeText(CadastroActivity.this, "Cadastro Efetuado com sucesso!", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(CadastroActivity.this ,LoginActivity.class);
-                startActivity(i);
+                bd.child("Usuarios").child(u.getUID()).setValue(u);
+
+                SharedPreferences.Editor editor = getSharedPreferences(MyApplication.MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putString("UID", u.getUID());
+                editor.apply();
+
+
+
+
+
+
 
                 //Salvando localmente(setando cliente)
                 ((MyApplication)getApplication()).setUser(u);
+
+               // limpar();
+
+                Toast.makeText(CadastroActivity.this, "Cadastro Efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(CadastroActivity.this ,PerfilActivity.class);
+                startActivity(i);
+
+
+
 
 
             }
@@ -133,31 +159,6 @@ public class CadastroActivity extends AppCompatActivity {
         txtTurma.setText(null);
         txtTipo.setSelection(0);
         txtSenha.setText(null);
-    }
-
-
-
-    public void cadastraroclick(View view) {
-        final ProgressDialog progressDialog = ProgressDialog.show
-                (CadastroActivity.this, "Por favor aguarde :D", "Processando...", true);
-        (firebaseAuth.createUserWithEmailAndPassword(txtEmail.getText().toString(),txtSenha.getText()
-                .toString())).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                progressDialog.dismiss();
-
-                if (task.isSuccessful()){
-                    Toast.makeText(CadastroActivity.this, "Registrado com Sucesso", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(CadastroActivity.this, LoginActivity.class);
-                    startActivity(i);
-                }else{
-                    Log.e("ERRO", task.getException().toString());
-                    Toast.makeText(CadastroActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-
-                }
-            }
-        });
-
     }
 
     @Override//Envio de imagem pela galeria.

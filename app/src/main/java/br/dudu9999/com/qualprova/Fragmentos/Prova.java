@@ -1,10 +1,13 @@
 package br.dudu9999.com.qualprova.Fragmentos;
 
+import java.io.Serializable;
+
 /**
  * Created by Eduardo on 30/06/2017.
  */
 
-public class Prova {
+public class Prova implements Serializable{
+
     private String id;
     private String tipo;
     private String materia;
@@ -91,5 +94,11 @@ public class Prova {
     }
 
     @Override
-    public String toString() {return id+"\n"+tipo+"\n"+materia+"\n"+data+"\n"+colegio+"\n"+turmas+"\n"+conteudo;}
+    public String toString(){return
+                                    colegio+"\n"+
+                                    materia+"\n"+
+                                    turmas+"\n"+
+                                    conteudo+"\n"+
+                                    data;
+                                    }
 }//fecha classe

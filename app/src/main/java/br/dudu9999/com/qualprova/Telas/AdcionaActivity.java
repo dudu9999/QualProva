@@ -1,6 +1,7 @@
 package br.dudu9999.com.qualprova.Telas;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.rtoshiro.util.format.SimpleMaskFormatter;
+import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -74,6 +77,11 @@ public class AdcionaActivity extends AppCompatActivity {
             txtDataProva = (EditText) findViewById(R.id.edt_data_prova);
             btn_enviar_prova = (Button) findViewById(R.id.btn_enviar_prova);
 
+            //mascara para cpf
+            SimpleMaskFormatter dataFormater = new SimpleMaskFormatter("NN/NN/NN");
+            MaskTextWatcher mtw = new MaskTextWatcher(txtDataProva, dataFormater);
+            txtDataProva.addTextChangedListener(mtw);
+
             //Firebase
             FirebaseApp.initializeApp(AdcionaActivity.this);
             final FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -126,6 +134,7 @@ public class AdcionaActivity extends AppCompatActivity {
                         } else {
                             //Enviando para o Firebase
                              banco.push().setValue(p);
+                            volta_tela_inicio();
                         }
 
                        // limpar();
@@ -148,6 +157,11 @@ public class AdcionaActivity extends AppCompatActivity {
             txtTurmaProva.setText(null);
             txtConteudoProva.setText(null);
             txtDataProva.setText(null);
+        }
+
+        public void volta_tela_inicio (){
+            Intent vai_tela_inicial = new Intent(AdcionaActivity.this, TelaInicioActivity.class);
+            startActivity(vai_tela_inicial);
         }
 
 } //fecha classe

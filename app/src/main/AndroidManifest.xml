@@ -21,7 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Telas.CadastroActivity"/>
-        <activity android:name=".Telas.PerfilActivity"/>
         <activity
             android:name=".Telas.TelaInicioActivity"
             android:label="@string/title_activity_tela_inicio"

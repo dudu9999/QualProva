@@ -1,11 +1,9 @@
 package br.dudu9999.com.qualprova.Telas;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,14 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,35 +29,23 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-
 import br.dudu9999.com.qualprova.Fragmentos.MyApplication;
 import br.dudu9999.com.qualprova.Fragmentos.Prova;
 import br.dudu9999.com.qualprova.Fragmentos.Usuario;
-import br.dudu9999.com.qualprova.Fragmentos.Usuario;
-import br.dudu9999.com.qualprova.Telas.LoginActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import br.dudu9999.com.qualprova.Fragmentos.Prova;
 import br.dudu9999.com.qualprova.R;
-import br.dudu9999.com.qualprova.Telas.AdcionaActivity;
-import br.dudu9999.com.qualprova.Telas.PerfilActivity;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 
 public class TelaInicioActivity extends AppCompatActivity {
     private Usuario userLocal;
     private Usuario userLogado;
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
     private RequestQueue mVolleyQueue;
 
-    private ListView lvProvas;
-
+    private ListView lista_prova;
     private ArrayAdapter<Prova> adapter;
     private ArrayList<Prova> provas;
 
@@ -75,13 +55,6 @@ public class TelaInicioActivity extends AppCompatActivity {
     //Toolbar
     private Toolbar toolbar;
 
-    @BindView(R.id.lista_prova)
-     ListView mListView;
-
-    @BindView(R.id.refresh)
-     SwipeRefreshLayout mRefresh;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,46 +62,14 @@ public class TelaInicioActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        SharedPreferences prefs = getSharedPreferences(MyApplication.MY_PREFS_NAME, MODE_PRIVATE);
-        String restoredText = prefs.getString("UID", null);
-        if (restoredText != null) {
-            String name = prefs.getString("UID", "No id defined");//"No name defined" is the default value.
-            int idName = prefs.getInt("UID", 0); //0 is the default value.
-            Intent Icad = new Intent(TelaInicioActivity.this, CadastroActivity.class);
-            startActivity(Icad);
-        }
-
-
-//        Setting values in Preference:
-
-//        MY_PREFS_NAME - a static String variable like:
-//
-//        public static final String MY_PREFS_NAME = "MyPrefsFile";
-//        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-//        editor.putString("name", "Elena");
-//        editor.putInt("idName", 12);
-//        editor.apply();
-//        Retrieve data from preference:
-//
-//        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-//        String restoredText = prefs.getString("text", null);
-//        if (restoredText != null) {
-//            String name = prefs.getString("name", "No name defined");//"No name defined" is the default value.
-//            int idName = prefs.getInt("idName", 0); //0 is the default value.
-//        }
-
-
-
-
-
-        lvProvas = (ListView) findViewById(R.id.lista_prova);
+        lista_prova = (ListView) findViewById(R.id.lista_prova);
 
         provas = new ArrayList<>();
         adapter = new ArrayAdapter<Prova>(
                 TelaInicioActivity.this,android.R.layout.simple_list_item_1,provas
         );
 
-        lvProvas.setAdapter(adapter);
+        lista_prova.setAdapter(adapter);
 
         //Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -138,29 +79,11 @@ public class TelaInicioActivity extends AppCompatActivity {
         final Usuario usuario = new Usuario();
 
 
-
-
-
-//        if( mAuth.getCurrentUser() == null){
-//            //user nao esta logado
-//            finish();
-//            Intent Isair = new Intent(getApplicationContext(), LoginActivity.class);
-//            startActivity(Isair);
-//        }
-//
-//        if( usuario != null){
-//            finish();
-//            Intent Isair = new Intent(getApplicationContext(), LoginActivity.class);
-//            startActivity(Isair);
-//        }
-//
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Irineu", Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show();
+                Snackbar.make(view, "Preencha seus dados do pessoais no perfil", Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show();
                 Intent addprov = new Intent(TelaInicioActivity.this, AdcionaActivity.class);
                 addprov.putExtra("acao","cadastrar");
                 startActivity(addprov);
@@ -168,7 +91,7 @@ public class TelaInicioActivity extends AppCompatActivity {
         });
 
         //Inicio AccountHeader
-//####################### SÓ O CABEÇALHO #######################
+        //####################### SÓ O CABEÇALHO #######################
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.fundo_verde )
@@ -205,22 +128,14 @@ public class TelaInicioActivity extends AppCompatActivity {
 
                         switch ((int)drawerItem.getIdentifier()){
                             case 0:
-                                Intent Ihome  = new Intent(TelaInicioActivity.this, PerfilActivity.class);
+                                Intent Ihome  = new Intent(TelaInicioActivity.this, TelaInicioActivity.class);
                                 startActivity(Ihome);
                                 Toast.makeText(getBaseContext(),"Você clicou no menu Home",Toast.LENGTH_LONG).show();
                                 break;
 
                             case 10:
-                                Intent Iperfil = new Intent(TelaInicioActivity.this, PerfilActivity.class);
                                 Intent ICad = new Intent(TelaInicioActivity.this, CadastroActivity.class);
-                                if ((((MyApplication)getApplication()).getUser()) == null ){
-                                    startActivity(ICad);
-                                }
-
-
-
-                                startActivity(Iperfil);
-
+                                startActivity(ICad);
 
 
 //                                SharedPreferences.Editor editor = getSharedPreferences(MyApplication.MY_PREFS_NAME, MODE_PRIVATE).edit();
@@ -266,18 +181,8 @@ public class TelaInicioActivity extends AppCompatActivity {
         });
 
         mVolleyQueue = Volley.newRequestQueue(this);
-        ButterKnife.bind(this);
-        mRefresh.setEnabled(true);
-        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
 
-                //lerProvas();
-
-            }
-        });
-
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lista_prova.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Prova prova = ((ArrayAdapter<Prova>)parent.getAdapter()).getItem(position);
@@ -290,13 +195,14 @@ public class TelaInicioActivity extends AppCompatActivity {
                 intent.putExtra("turmas", prova.getTurmas());
                 intent.putExtra("conteudo", prova.getConteudo());
                 intent.putExtra("key", prova.getId());*/
+
                 intent.putExtra("acao","alterar");
                 intent.putExtra("prova", prova);
                 startActivity(intent);
             }
         });
 
-        //lerProvas();
+
 
     }//fecha oncreate
 
@@ -306,61 +212,6 @@ public class TelaInicioActivity extends AppCompatActivity {
         //lerProvas();
     }//fecha onstart
 
-
-;
-    /*public void lerProvas() {
-        StringRequest req = new StringRequest("https://qual-prova-firebase.firebaseio.com/Provas.json",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject( response );
-                            jsonObject.toString();
-
-                            Iterator<?> keys = jsonObject.keys();
-
-                            while( keys.hasNext() ) {
-                                String key = (String)keys.next();
-                                if ( jsonObject.get(key) instanceof JSONObject ) {
-                                    String id = ((JSONObject) jsonObject.get(key)).get("id").toString();
-                                    String tipo = ((JSONObject) jsonObject.get(key)).get("tipo").toString();
-                                    String materia = ((JSONObject) jsonObject.get(key)).get("materia").toString();
-                                    String data = ((JSONObject) jsonObject.get(key)).get("data").toString();
-                                    String colegio = ((JSONObject) jsonObject.get(key)).get("colegio").toString();
-                                    String turmas = ((JSONObject) jsonObject.get(key)).get("turmas").toString();
-                                    String conteudo = ((JSONObject) jsonObject.get(key)).get("conteudo").toString();
-                                    Prova prov1 = new Prova(id, tipo, materia, data, colegio,turmas,conteudo );
-                                    provas.add(0, prov1);
-                                }
-                            }
-                            ArrayAdapter<Prova> adapter = new ArrayAdapter<Prova>(
-                                    TelaInicioActivity.this, android.R.layout.simple_list_item_1,provas);
-                            mListView.setAdapter(adapter);
-                            mRefresh.setRefreshing(false);
-                            YoYo.with(Techniques.FadeIn).duration(1000)
-                                    .playOn(mRefresh);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(TelaInicioActivity.this, "Erro",Toast.LENGTH_SHORT).show();
-            }
-        });
-        mVolleyQueue.add(req);
-    }*///fecha ler prova
-
- //   @Override
-//    protected void onResume() {
-//        if(getIntent().getBooleanExtra("SAIR", false)){
-//            finish();
-//        }
-//        super.onResume();
-//    }
 
 
 }// fecha class

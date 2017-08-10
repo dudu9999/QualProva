@@ -3,7 +3,6 @@ package br.dudu9999.com.qualprova.Telas;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -42,8 +39,6 @@ public class TelaInicioActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
-    private RequestQueue mVolleyQueue;
 
     private ListView lista_prova;
     private ArrayAdapter<Prova> adapter;
@@ -75,7 +70,7 @@ public class TelaInicioActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseApp.initializeApp(TelaInicioActivity.this);
         final FirebaseDatabase db = FirebaseDatabase.getInstance();
-        final DatabaseReference banco = db.getReference("banco").child("Provas");
+        final DatabaseReference banco = db.getReference("Banco").child("Provas");
         final Usuario usuario = new Usuario();
 
 
@@ -83,8 +78,8 @@ public class TelaInicioActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Preencha seus dados do pessoais no perfil", Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show();
-                Intent addprov = new Intent(TelaInicioActivity.this, AdcionaActivity.class);
+                //Snackbar.make(view, "Preencha seus dados do pessoais no perfil", Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show();
+                Intent addprov = new Intent(TelaInicioActivity.this, TelaAdcionaProvaActivity.class);
                 addprov.putExtra("acao","cadastrar");
                 startActivity(addprov);
             }
@@ -115,7 +110,7 @@ public class TelaInicioActivity extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
-                        new SecondaryDrawerItem().withName("Home").withIdentifier(0).withIcon(R.mipmap.ic_home),
+                        new SecondaryDrawerItem().withName("Inicio").withIdentifier(0).withIcon(R.mipmap.ic_home),
                         new SecondaryDrawerItem().withName("Perfil").withIdentifier(10).withIcon(R.mipmap.ic_user),
                         new SecondaryDrawerItem().withName("Sobre").withIdentifier(20).withIcon(R.mipmap.ic_about),
                         new PrimaryDrawerItem().withName("Sair").withIdentifier(30).withIcon(R.mipmap.ic_out)
@@ -130,11 +125,11 @@ public class TelaInicioActivity extends AppCompatActivity {
                             case 0:
                                 Intent Ihome  = new Intent(TelaInicioActivity.this, TelaInicioActivity.class);
                                 startActivity(Ihome);
-                                Toast.makeText(getBaseContext(),"Você clicou no menu Home",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),"Você clicou no menu Inicio",Toast.LENGTH_LONG).show();
                                 break;
 
                             case 10:
-                                Intent ICad = new Intent(TelaInicioActivity.this, CadastroActivity.class);
+                                Intent ICad = new Intent(TelaInicioActivity.this, TelaPerfilActivity.class);
                                 startActivity(ICad);
 
 
@@ -146,7 +141,7 @@ public class TelaInicioActivity extends AppCompatActivity {
                                 break;
 
                             case 20:
-                                Intent Isobre = new Intent(TelaInicioActivity.this, AboutActivity.class);
+                                Intent Isobre = new Intent(TelaInicioActivity.this, TelaAboutActivity.class);
                                 startActivity(Isobre);
                                 Toast.makeText(getBaseContext(),"Você clicou no menu Sobre",Toast.LENGTH_LONG).show();
                                 break;
@@ -154,8 +149,8 @@ public class TelaInicioActivity extends AppCompatActivity {
                             case 30:
                                 mAuth.signOut();
                                 finish();
-                                Intent Isair = new Intent(getApplicationContext(), LoginActivity.class);
-                                startActivity(Isair);
+//                                Intent Isair = new Intent(getApplicationContext(), TelaLoginActivity.class);
+//                                startActivity(Isair);
                                 break;
                         }
                         return false;
@@ -180,13 +175,13 @@ public class TelaInicioActivity extends AppCompatActivity {
             }
         });
 
-        mVolleyQueue = Volley.newRequestQueue(this);
+
 
         lista_prova.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Prova prova = ((ArrayAdapter<Prova>)parent.getAdapter()).getItem(position);
-                Intent intent = new Intent(TelaInicioActivity.this, AdcionaActivity.class);
+                Intent intent = new Intent(TelaInicioActivity.this, TelaAdcionaProvaActivity.class);
 
                 /*intent.putExtra("tipo", prova.getTipo());
                 intent.putExtra("materia", prova.getMateria());

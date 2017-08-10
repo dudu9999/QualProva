@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.dudu9999.com.qualprova.Telas.LoginActivity">
+    tools:context="br.dudu9999.com.qualprova.Telas.TelaLoginActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -46,7 +46,7 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
-        android:text="123456@gmail.com"
+        android:text="ecaetanocorrea@gmail.com"
         android:textAlignment="center"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -64,7 +64,7 @@
         android:ems="10"
         android:hint="Senha"
         android:inputType="textPassword"
-        android:text="123456"
+        android:text="virginia50"
         android:textAlignment="center"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
 
     <application
         android:name=".Fragmentos.MyApplication"
@@ -13,20 +14,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Telas.LoginActivity">
+        <activity android:name=".Telas.TelaLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Telas.CadastroActivity"/>
+        <activity android:name=".Telas.TelaPerfilActivity"/>
         <activity
             android:name=".Telas.TelaInicioActivity"
             android:label="@string/title_activity_tela_inicio"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Telas.AdcionaActivity"/>
-        <activity android:name=".Telas.AboutActivity">
+        <activity android:name=".Telas.TelaAdcionaProvaActivity"/>
+        <activity android:name=".Telas.TelaAboutActivity">
         </activity>
     </application>
 

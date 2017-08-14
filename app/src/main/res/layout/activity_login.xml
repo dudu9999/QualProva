@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.dudu9999.com.qualprova.Telas.TelaLoginActivity">
+    tools:context="br.dudu9999.com.qualprova.Telas.TelaLoginActivity"
+    android:background="@drawable/shape_fundo2">
 
-    <ImageView
+
+<ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="384dp"
@@ -80,7 +82,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="7dp"
-        android:background="?attr/colorAccent"
+        android:background="@drawable/shape_botao"
         android:onClick="loginBtnLoginClick"
         android:text="LOGIN"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
@@ -91,6 +93,23 @@
         app:layout_constraintTop_toBottomOf="@+id/edtSenhaLogin"/>
 
 
+    <Button
+        android:id="@+id/btnCriarConta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_botao2"
+        android:text="Cadastrar"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
 
     <ProgressBar
         android:id="@+id/login_progress"
@@ -110,21 +129,4 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.498"/>
-    <Button
-        android:id="@+id/btnCriarConta"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/md_green_A400"
-        android:text="Cadastrar"
-        android:textColor="@color/common_google_signin_btn_text_dark_default"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
 </android.support.constraint.ConstraintLayout>

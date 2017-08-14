@@ -1,6 +1,9 @@
 package br.dudu9999.com.qualprova.Fragmentos;
 
+import android.provider.ContactsContract;
+
 import java.io.Serializable;
+import java.sql.Time;
 
 /**
  * Created by Eduardo on 30/06/2017.
@@ -9,40 +12,35 @@ import java.io.Serializable;
 public class Prova implements Serializable{
 
     private String id;
-    private String tipo;
     private String materia;
-    private String data;
     private String colegio;
     private String turmas;
     private String conteudo;
+    private int day;
+    private int mouth;
+    private int year;
 
-
-    public Prova(String id, String tipo, String materia, String data, String colegio, String turmas, String conteudo) {
+    public Prova(String id, String materia, String colegio, String turmas, String conteudo, int day, int mouth, int year) {
         this.id = id;
-        this.tipo = tipo;
         this.materia = materia;
-        this.data = data;
         this.colegio = colegio;
         this.turmas = turmas;
         this.conteudo = conteudo;
+        this.day = day;
+        this.mouth = mouth;
+        this.year = year;
     }
-
-
 
     public Prova() {
 
     }
 
-
-//    public Prova() {
-//    }
-
-    public String getTipo() {
-        return tipo;
+    public String getId() {
+        return id;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getMateria() {
@@ -77,28 +75,39 @@ public class Prova implements Serializable{
         this.conteudo = conteudo;
     }
 
-    public String getId() {
-        return id;
+    public int getDay() {
+        return day;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDay(int day) {
+        this.day = day;
     }
 
-    public String getData() {
-        return data;
+    public int getMouth() {
+        return mouth;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setMouth(int mouth) {
+        this.mouth = mouth;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     @Override
     public String toString(){return
-                                    colegio+"\n"+
-                                    materia+"\n"+
-                                    turmas+"\n"+
-                                    conteudo+"\n"+
-                                    data;
+                                   "Local: "+ colegio+"\n"+
+                                   "Materia: "+ materia+"\n"+
+                                   "Turma: "+ turmas+"\n"+
+                                   "Conteudo: "+conteudo+"\n"+
+                                   "Data: "+day+"/"+mouth+"/"+year;
                                     }
+
+
+
 }//fecha classe

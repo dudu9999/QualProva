@@ -40,11 +40,11 @@ public class TelaLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //referencias
-        txtEmailLogin = (EditText) findViewById(R.id.edtEmailLogin);
-        txtSenhaLogin = (EditText) findViewById(R.id.edtSenhaLogin);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnCriarConta = (Button) findViewById(R.id.btnCriarConta);
-        progress = (ProgressBar) findViewById(R.id.login_progress);
+        txtEmailLogin = (EditText)    findViewById(R.id.edtEmailLogin);
+        txtSenhaLogin = (EditText)    findViewById(R.id.edtSenhaLogin);
+        btnLogin =      (Button)      findViewById(R.id.btnLogin);
+        btnCriarConta = (Button)      findViewById(R.id.btnCriarConta);
+        progress =      (ProgressBar) findViewById(R.id.login_progress);
 
         //Pegando Referencia Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -111,15 +111,16 @@ public class TelaLoginActivity extends AppCompatActivity {
 
                                 //inte.putExtra("Email", mAuth.getCurrentUser().getEmail());
 
+
+//                                if ((((MyApplication) getApplication()).getUser().getNome()).equals(null)) {
+//                                    Toast.makeText(getBaseContext(), "Preencha seus dados no perfil!", Toast.LENGTH_LONG).show();
+//                                }else{
+//                                    Toast.makeText(getBaseContext(), "Entou\nSeja bem vindo.", Toast.LENGTH_LONG).show();
+//                                      mBtExcluir.setVisibility(View.VISIBLE);
+//                                      mBtSalvar.setVisibility(View.VISIBLE);
+//                                }
                                 startActivity(inte);
                                 finish();
-                                if (userLocal.getNome().equals(null)) {
-                                    Toast.makeText(getBaseContext(), "Preencha seus dados no perfil!", Toast.LENGTH_LONG).show();
-                                }else{
-                                    Toast.makeText(getBaseContext(), "Entou\nSeja bem vindo.", Toast.LENGTH_LONG).show();
-
-                                }
-
 
 
                             } else {

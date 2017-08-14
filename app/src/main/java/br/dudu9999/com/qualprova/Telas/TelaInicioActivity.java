@@ -8,6 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.google.firebase.FirebaseApp;
@@ -32,6 +36,8 @@ import br.dudu9999.com.qualprova.Fragmentos.Usuario;
 import java.util.ArrayList;
 import br.dudu9999.com.qualprova.R;
 
+import static br.dudu9999.com.qualprova.R.id.fab;
+
 
 public class TelaInicioActivity extends AppCompatActivity {
     private Usuario userLocal;
@@ -43,6 +49,7 @@ public class TelaInicioActivity extends AppCompatActivity {
     private ListView lista_prova;
     private ArrayAdapter<Prova> adapter;
     private ArrayList<Prova> provas;
+    private Button fab;
 
     //Drawer
     private Drawer result = null;
@@ -57,7 +64,16 @@ public class TelaInicioActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         lista_prova = (ListView) findViewById(R.id.lista_prova);
+       // fab = (Button) findViewById(R.id.fab);
+
+//        if ((((MyApplication)getApplication()).getUser().getTipo()).equals("Aluno")){
+//            fab.setVisibility(View.INVISIBLE);
+//        }
+//        if ((((MyApplication)getApplication()).getUser().getTipo()).equals("Professor")){
+//            fab.setVisibility(View.VISIBLE);
+//        }
 
         provas = new ArrayList<>();
         adapter = new ArrayAdapter<Prova>(
@@ -149,8 +165,8 @@ public class TelaInicioActivity extends AppCompatActivity {
                             case 30:
                                 mAuth.signOut();
                                 finish();
-//                                Intent Isair = new Intent(getApplicationContext(), TelaLoginActivity.class);
-//                                startActivity(Isair);
+                                Intent Isair = new Intent(getApplicationContext(), TelaLoginActivity.class);
+                                startActivity(Isair);
                                 break;
                         }
                         return false;
@@ -161,13 +177,15 @@ public class TelaInicioActivity extends AppCompatActivity {
         banco.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                YoYo.with(Techniques.DropOut).duration(3000)
+                        .playOn(lista_prova);
                 provas.clear();
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     Prova p = data.getValue(Prova.class);
                     p.setId(data.getKey()); //Colocando key manualmente no objeto
                     provas.add(p);
                 }
+
                 adapter.notifyDataSetChanged();
             }
             @Override
@@ -188,12 +206,16 @@ public class TelaInicioActivity extends AppCompatActivity {
                 intent.putExtra("data", prova.getData());
                 intent.putExtra("colegio", prova.getColegio());
                 intent.putExtra("turmas", prova.getTurmas());
-                intent.putExtra("conteudo", prova.getConteudo());
-                intent.putExtra("key", prova.getId());*/
-
+                intent.putExtra("conteudo", prova.getConteudo());*/
+                intent.putExtra("key", prova.getId());
+                //Prova.setId(getId);
                 intent.putExtra("acao","alterar");
                 intent.putExtra("prova", prova);
                 startActivity(intent);
+
+
+
+
             }
         });
 

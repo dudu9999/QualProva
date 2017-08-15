@@ -23,7 +23,7 @@
         app:srcCompat="@drawable/usergreen" />
 
     <Spinner
-        android:id="@+id/edtTipo"
+        android:id="@+id/spTipo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -54,7 +54,7 @@
         app:layout_constraintHorizontal_bias="0.947"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtTipo"
+        app:layout_constraintTop_toBottomOf="@+id/spTipo"
         tools:ignore="UnknownId"/>
 
     <EditText

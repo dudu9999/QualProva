@@ -4,10 +4,12 @@
     import android.content.Intent;
     import android.content.SharedPreferences;
     import android.net.Uri;
+    import android.support.design.widget.FloatingActionButton;
     import android.support.v7.app.AppCompatActivity;
     import android.os.Bundle;
     import android.util.Log;
     import android.view.View;
+    import android.widget.AdapterView;
     import android.widget.Button;
     import android.widget.EditText;
     import android.widget.ImageView;
@@ -46,7 +48,7 @@
         private EditText txtColegio;
         private EditText txtCPF;
         private EditText txtTurma;
-        private Spinner txtTipo;
+        private Spinner spTipo;
         private Button btnCadastrar;
         private FirebaseAuth firebaseAuth;
         private Usuario userLocal;
@@ -55,19 +57,22 @@
         private StorageReference mStorage;
         private String TAG = "TELACADASTRO";
         private DatabaseReference bd;
+        private FloatingActionButton fab;
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_perfil);
 
+            fab = (FloatingActionButton) findViewById(R.id.fab);
             select_image_C = (ImageView) findViewById(R.id.select_image);
             txtEmail =       (EditText)  findViewById(R.id.edtEmailCadastro);
             txtSenha =       (EditText)  findViewById(R.id.edtSenhaCadastro);
             txtNome =        (EditText)  findViewById(R.id.edtNomeCad);
             txtColegio =     (EditText)  findViewById(R.id.edtColegioCad);
             txtCPF =         (EditText)  findViewById(R.id.edtCpfCad);
-            txtTipo =        (Spinner)   findViewById(R.id.edtTipo);
+            spTipo =        (Spinner)   findViewById(R.id.spTipo);
             txtTurma =       (EditText)  findViewById(R.id.edtTurma);
             btnCadastrar =   (Button)    findViewById(R.id.btnCadastrar);
 
@@ -84,8 +89,6 @@
             //firebase
             FirebaseApp.initializeApp(getBaseContext());
             final FirebaseDatabase db = FirebaseDatabase.getInstance();
-            //DatabaseReference bd = db.getReference("banco");
-           // DatabaseReference bd;
 
             //carlos
             bd = ConfiguracaoFireBase.getFirebase().child("Banco").child("Usuarios");
@@ -145,8 +148,8 @@
                     u.setTurma(txtTurma.getText().toString());
                     u.setTurma(userLocal.getTurma().toString());
 
-                    userLocal.setTipo(txtTipo.getSelectedItem().toString());
-                    u.setTipo(txtTipo.getSelectedItem().toString());
+                    userLocal.setTipo(spTipo.getSelectedItem().toString());
+                    u.setTipo(spTipo.getSelectedItem().toString());
                     u.setTipo(userLocal.getTipo().toString());
 
                     //u.setTipo(spTipo.getSelectedItem().toString());
@@ -155,6 +158,7 @@
                     if(usu.isEmpty()) {
                         salvarUsuario(u);
                     }else{
+                        //bd.child(u.getUID()).setValue(u);
                         u.setUID(usu.get(0).getUID());
                         salvarUsuarioAlterar(u);
                     }
@@ -172,16 +176,30 @@
 
                    // limpar();
 
+
+
+
                     Toast.makeText(TelaPerfilActivity.this, "Cadastro Efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(TelaPerfilActivity.this, TelaInicioActivity.class);
+                    if ((userLocal.getTipo().toString()).equals("Professor")){
+                        i.putExtra("selectTipo","Professor");
+                    }else{
+                        i.putExtra("selectTipo","Aluno");
+                    }
+
+
+
                     startActivity(i);
 
                 }
             });//fim do btncadastrar
 
+
+
+
             ///carlos
 
-    bd.orderByChild("email").equalTo( ( (MyApplication)getApplication()).getUser().getEmail().toString()).addValueEventListener(new ValueEventListener() {
+            bd.orderByChild("email").equalTo( ( (MyApplication)getApplication()).getUser().getEmail().toString()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     usu.clear();
@@ -199,8 +217,30 @@
                         txtColegio.setText(usu.get(0).getColegio());
                         txtCPF.setText(usu.get(0).getCpf());
                         txtTurma.setText(usu.get(0).getTurma());
-                    }
-                }
+                        //spTipo.getSelectedItem();
+
+                        //u.setTipo(spTipo.getSelectedItem().toString());
+                        //spTipo.setSelection(Integer.parseInt(usu.get(0).getTipo()));
+
+                        spTipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                usu.get(0).getTipo();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+
+
+
+
+
+
+                    }//fecha if
+                }//fecha on data change
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                 }
@@ -241,7 +281,7 @@
     //                    txtNome.setText(userLocal.getNome());
     //                    txtColegio.setText(userLocal.getColegio());
     //                    txtCPF.setText(userLocal.getCpf());
-    //                   //txtTipo.setSelected(userLocal.getTipo());
+    //                   //spTipo.setSelected(userLocal.getTipo());
     //                    txtTurma.setText(userLocal.getTurma());
     //
     //                  }
@@ -286,7 +326,7 @@
             txtColegio.setText(null);
             txtCPF.setText(null);
             txtTurma.setText(null);
-            txtTipo.setSelection(0);
+            spTipo.setSelection(0);
             txtSenha.setText(null);
         }
 

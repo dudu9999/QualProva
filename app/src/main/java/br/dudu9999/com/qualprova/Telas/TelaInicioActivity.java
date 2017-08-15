@@ -49,7 +49,7 @@ public class TelaInicioActivity extends AppCompatActivity {
     private ListView lista_prova;
     private ArrayAdapter<Prova> adapter;
     private ArrayList<Prova> provas;
-    private Button fab;
+    private FloatingActionButton fab;
 
     //Drawer
     private Drawer result = null;
@@ -64,16 +64,27 @@ public class TelaInicioActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //pegando objeto da telainicio
+        final String selectTipo = getIntent().getStringExtra("selectTipo");
+        //final Prova p = (Prova) getIntent().getSerializableExtra("prova");
+
 
         lista_prova = (ListView) findViewById(R.id.lista_prova);
-       // fab = (Button) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
-//        if ((((MyApplication)getApplication()).getUser().getTipo()).equals("Aluno")){
-//            fab.setVisibility(View.INVISIBLE);
-//        }
-//        if ((((MyApplication)getApplication()).getUser().getTipo()).equals("Professor")){
-//            fab.setVisibility(View.VISIBLE);
-//        }
+        //if(selectTipo.equalsIgnoreCase(" ")) {
+            //  if ((((MyApplication)getApplication()).getUser().getTipo()).equals(1)){
+            fab.setVisibility(View.INVISIBLE);
+        //}
+        if(String.valueOf(selectTipo).equals("Professor")) {
+            //  if ((((MyApplication)getApplication()).getUser().getTipo()).equals(1)){
+            fab.setVisibility(View.VISIBLE);
+        }
+        if(String.valueOf(selectTipo).equals("Aluno")) {
+            //  if ((((MyApplication)getApplication()).getUser().getTipo()).equals(1)){
+            fab.setVisibility(View.INVISIBLE);
+        }
+
 
         provas = new ArrayList<>();
         adapter = new ArrayAdapter<Prova>(

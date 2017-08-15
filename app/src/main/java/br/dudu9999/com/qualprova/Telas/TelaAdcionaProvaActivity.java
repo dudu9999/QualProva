@@ -119,7 +119,7 @@ public class TelaAdcionaProvaActivity extends AppCompatActivity {
                             p.setYear(Integer.parseInt(spYear.getSelectedItem().toString()));
 
                             //abrindo e setando os valores no google agenda
-                            agenda(p.getMateria(),p.getColegio(),p.getConteudo(),p.getDay(),p.getMouth(),p.getYear());
+                            //agenda(p.getMateria(),p.getColegio(),p.getConteudo(),p.getDay(),p.getMouth(),p.getYear());
 
                             //Alterando através da chave(key) no firebase setando o novo valor
                             banco.child(p.getId()).setValue(p);
@@ -137,14 +137,16 @@ public class TelaAdcionaProvaActivity extends AppCompatActivity {
                             pp.setYear(Integer.parseInt(spYear.getSelectedItem().toString()));
 
                             //abrindo e setando os valores no google agenda
-                            agenda(pp.getMateria(),pp.getColegio(),pp.getConteudo(),pp.getDay(),pp.getMouth(),pp.getYear());
+                           // agenda(pp.getMateria(),pp.getColegio(),pp.getConteudo(),pp.getDay(),pp.getMouth(),pp.getYear());
 
                             Log.d(TAG, "dataaaaaaaaaaaaa "+pp.getMateria()+pp.getColegio());
 
                             //Enviando para o Firebase
-                            //banco.push().setValue(pp);
+                            banco.push().setValue(pp);
 
-                            //Toast.makeText(getBaseContext(),getResources().getString(R.string.toast_sucesso_adicionar), Toast.LENGTH_LONG).show();
+                            volta_tela_inicio();
+
+                            Toast.makeText(getBaseContext(),getResources().getString(R.string.toast_sucesso_adicionar), Toast.LENGTH_LONG).show();
                         }
                        // limpar();
                     }else{
@@ -154,28 +156,23 @@ public class TelaAdcionaProvaActivity extends AppCompatActivity {
 
             });
 
+        btnDeletar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(acao.equalsIgnoreCase("alterar")) {
+                    banco.child(p.getId()).removeValue();
+                    volta_tela_inicio();
+
+                }
+        }
+    });
+
     }//fefha oncreate
 
-//    public void deletaProva(View view) {
-//                //https://qual-prova-firebase.firebaseio.com/Banco/Provas
-//
-//                StringRequest json = new StringRequest(Request.Method.DELETE,
-//                        "https://qual-prova-firebase.firebaseio.com/Banco/Provas/"+pv.getId()+".json",
-//                        new Response.Listener<String>() {
-//                            @Override
-//                            public void onResponse(String response) {
-//                                finish();
-//                            }
-//                        }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(TelaAdcionaProvaActivity.this, "Tente novamente", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//                );
-//
-//                mVolleyRequest.add(json);
-//            }
+
+
+
+
 
 
 
@@ -190,8 +187,7 @@ public class TelaAdcionaProvaActivity extends AppCompatActivity {
         intent.putExtra(CalendarContract.Events.DESCRIPTION, "Conteudo: "+descricao);
         GregorianCalendar calDate = new GregorianCalendar(ano,mes,dia);
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,calDate.getTimeInMillis());
-        GregorianCalendar calDate2 = new GregorianCalendar(ano,mes,dia);
-        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,calDate2.getTimeInMillis());
+        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,calDate.getTimeInMillis());
         intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
         intent.putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE);
         intent.putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);

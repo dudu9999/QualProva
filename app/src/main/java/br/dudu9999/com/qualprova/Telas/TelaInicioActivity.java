@@ -1,14 +1,18 @@
 package br.dudu9999.com.qualprova.Telas;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -30,13 +34,11 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import br.dudu9999.com.qualprova.Fragmentos.MyApplication;
-import br.dudu9999.com.qualprova.Fragmentos.Prova;
-import br.dudu9999.com.qualprova.Fragmentos.Usuario;
+import br.dudu9999.com.qualprova.Objetos.MyApplication;
+import br.dudu9999.com.qualprova.Objetos.Prova;
+import br.dudu9999.com.qualprova.Objetos.Usuario;
 import java.util.ArrayList;
 import br.dudu9999.com.qualprova.R;
-
-import static br.dudu9999.com.qualprova.R.id.fab;
 
 
 public class TelaInicioActivity extends AppCompatActivity {
@@ -50,7 +52,8 @@ public class TelaInicioActivity extends AppCompatActivity {
     private ArrayAdapter<Prova> adapter;
     private ArrayList<Prova> provas;
     private FloatingActionButton fab;
-
+    private String nomedraw = "User";
+    private String TAG = "Log";
     //Drawer
     private Drawer result = null;
 
@@ -63,28 +66,35 @@ public class TelaInicioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tela_inicio);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Permiss ();
         //pegando objeto da telainicio
         final String selectTipo = getIntent().getStringExtra("selectTipo");
-        //final Prova p = (Prova) getIntent().getSerializableExtra("prova");
-
+        final String usuariop = getIntent().getStringExtra("usuariop");
 
         lista_prova = (ListView) findViewById(R.id.lista_prova);
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        //if(selectTipo.equalsIgnoreCase(" ")) {
-            //  if ((((MyApplication)getApplication()).getUser().getTipo()).equals(1)){
-            fab.setVisibility(View.INVISIBLE);
-        //}
+        fab.setVisibility(View.INVISIBLE);
+
         if(String.valueOf(selectTipo).equals("Professor")) {
-            //  if ((((MyApplication)getApplication()).getUser().getTipo()).equals(1)){
             fab.setVisibility(View.VISIBLE);
         }
         if(String.valueOf(selectTipo).equals("Aluno")) {
-            //  if ((((MyApplication)getApplication()).getUser().getTipo()).equals(1)){
             fab.setVisibility(View.INVISIBLE);
         }
+        //if -----------------------------------------------------------
+        if (((MyApplication)getApplication()).getUser().getNome() == null){
+            nomedraw = usuariop;
+        }else{
+            nomedraw = ((MyApplication)getApplication()).getUser().getNome();
+        }
 
+        Log.d("TELAINICIO", "TEST1:  " + selectTipo );
+        Log.d("TELAINICIO", "TEST2:  " + ((MyApplication)getApplication()).getUser().getNome() );
+        Log.d("TELAINICIO", "TEST3:  " + ((MyApplication)getApplication()).getUser());
+//        Log.d("TELAINICIO", "TEST4:  " + ((MyApplication)getApplication()).getText(0).toString());
+//        Log.d("TELAINICIO", "TEST4:  " + userLogado.getNome());
+//        Log.d("TELAINICIO", "TEST5:  " + userLocal.toString());
 
         provas = new ArrayList<>();
         adapter = new ArrayAdapter<Prova>(
@@ -108,7 +118,10 @@ public class TelaInicioActivity extends AppCompatActivity {
                 //Snackbar.make(view, "Preencha seus dados do pessoais no perfil", Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show();
                 Intent addprov = new Intent(TelaInicioActivity.this, TelaAdcionaProvaActivity.class);
                 addprov.putExtra("acao","cadastrar");
+                Toast.makeText(TelaInicioActivity.this, "Clicou para Adicionar!", Toast.LENGTH_SHORT).show();
                 startActivity(addprov);
+
+
             }
         });
 
@@ -118,7 +131,7 @@ public class TelaInicioActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.fundo_verde )
                 .addProfiles(
-                new ProfileDrawerItem().withName(((MyApplication)getApplication()).getUser().getNome()).withEmail(((MyApplication)getApplication()).getUser().getEmail())
+                new ProfileDrawerItem().withName(nomedraw).withEmail(((MyApplication)getApplication()).getUser().getEmail())
                         .withIcon(getResources().getDrawable(R.mipmap.ic_launcher))
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener(){
@@ -140,7 +153,8 @@ public class TelaInicioActivity extends AppCompatActivity {
                         new SecondaryDrawerItem().withName("Inicio").withIdentifier(0).withIcon(R.mipmap.ic_home),
                         new SecondaryDrawerItem().withName("Perfil").withIdentifier(10).withIcon(R.mipmap.ic_user),
                         new SecondaryDrawerItem().withName("Sobre").withIdentifier(20).withIcon(R.mipmap.ic_about),
-                        new PrimaryDrawerItem().withName("Sair").withIdentifier(30).withIcon(R.mipmap.ic_out)
+                        new PrimaryDrawerItem().withName("Trocar de Conta").withIdentifier(30).withIcon(R.mipmap.ic_out),
+                        new PrimaryDrawerItem().withName("Fechar App").withIdentifier(31).withIcon(R.mipmap.ic_out)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -179,23 +193,29 @@ public class TelaInicioActivity extends AppCompatActivity {
                                 Intent Isair = new Intent(getApplicationContext(), TelaLoginActivity.class);
                                 startActivity(Isair);
                                 break;
+                            case 31:
+                                Intent intent = new Intent(Intent.ACTION_MAIN);
+                                intent.addCategory(Intent.CATEGORY_HOME);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                break;
                         }
                         return false;
                     }
                 }).build();
 
+
         //Traz os dados
         banco.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                YoYo.with(Techniques.DropOut).duration(3000)
-                        .playOn(lista_prova);
+                YoYo.with(Techniques.DropOut).duration(3000).playOn(lista_prova);
                 provas.clear();
-                for(DataSnapshot data: dataSnapshot.getChildren()){
-                    Prova p = data.getValue(Prova.class);
-                    p.setId(data.getKey()); //Colocando key manualmente no objeto
-                    provas.add(p);
-                }
+                    for(DataSnapshot data: dataSnapshot.getChildren()){
+                        Prova p = data.getValue(Prova.class);
+                        p.setId(data.getKey()); //Colocando key manualmente no objeto
+                        provas.add(p);
+                    }
 
                 adapter.notifyDataSetChanged();
             }
@@ -206,13 +226,14 @@ public class TelaInicioActivity extends AppCompatActivity {
 
 
 
+
         lista_prova.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Prova prova = ((ArrayAdapter<Prova>)parent.getAdapter()).getItem(position);
                 Intent intent = new Intent(TelaInicioActivity.this, TelaAdcionaProvaActivity.class);
 
-                /*intent.putExtra("tipo", prova.getTipo());
+                /*intent.putExtra("tipo", prova.get);
                 intent.putExtra("materia", prova.getMateria());
                 intent.putExtra("data", prova.getData());
                 intent.putExtra("colegio", prova.getColegio());
@@ -222,6 +243,11 @@ public class TelaInicioActivity extends AppCompatActivity {
                 //Prova.setId(getId);
                 intent.putExtra("acao","alterar");
                 intent.putExtra("prova", prova);
+
+
+                Toast.makeText(TelaInicioActivity.this, "Clicou para editar!", Toast.LENGTH_SHORT).show();
+
+
                 startActivity(intent);
 
 
@@ -232,8 +258,30 @@ public class TelaInicioActivity extends AppCompatActivity {
 
 
 
-    }//fecha oncreate
 
+    }//fecha oncreate
+    public void Permiss (){
+        if (ContextCompat.checkSelfPermission(TelaInicioActivity.this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            //Verifica se já mostramos o alerta e o usuário negou alguma vez.
+            if (ActivityCompat.shouldShowRequestPermissionRationale(TelaInicioActivity.this, android.Manifest.permission.WRITE_CALENDAR)) {
+                //Caso o usuário tenha negado a permissão anteriormente e não tenha marcado o check "nunca mais mostre este alerta"
+
+                //Podemos mostrar um alerta explicando para o usuário porque a permissão é importante.
+                Toast.makeText(
+                        getBaseContext(),
+                        "Você já negou antes essa permissão! " +
+                                "\nPara usar a agenda necessitamos dessa permissão!",
+                        Toast.LENGTH_LONG).show();
+
+                            /* Além da mensagem indicando a necessidade sobre a permissão,
+                               podemos solicitar novamente a permissão */
+                ActivityCompat.requestPermissions(TelaInicioActivity.this, new String[]{android.Manifest.permission.WRITE_CALENDAR, android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            } else {
+                //Solicita a permissão
+                ActivityCompat.requestPermissions(TelaInicioActivity.this, new String[]{android.Manifest.permission.WRITE_CALENDAR, android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            }
+        }
+    }// Fim da Permiss
     @Override
     protected void onStart() {
         super.onStart();

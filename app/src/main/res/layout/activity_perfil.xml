@@ -166,7 +166,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/shape_botao2"
+        android:background="@drawable/shape_botao_c"
         android:onClick="cadastraroclick"
         android:text="   Cadastrar   "
         android:textColor="@android:color/background_light"

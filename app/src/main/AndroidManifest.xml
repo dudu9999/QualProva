@@ -5,30 +5,31 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
-        android:name=".Fragmentos.MyApplication"
+        android:name=".Objetos.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Telas.TelaLoginActivity">
+        <activity android:name=".Telas.TelaSplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Telas.TelaPerfilActivity"/>
-        <activity
-            android:name=".Telas.TelaInicioActivity"
+        <activity android:name=".Telas.TelaInicioActivity"
             android:label="@string/title_activity_tela_inicio"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Telas.TelaAdcionaProvaActivity"/>
-        <activity android:name=".Telas.TelaAboutActivity">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".Telas.TelaPerfilActivity"></activity>
+        <activity android:name=".Telas.TelaLoginActivity"></activity>
+        <activity android:name=".Telas.TelaAdcionaProvaActivity"></activity>
+        <activity android:name=".Telas.TelaAboutActivity"></activity>
     </application>
 
 </manifest>

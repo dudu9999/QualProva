@@ -9,7 +9,6 @@
     import android.os.Bundle;
     import android.util.Log;
     import android.view.View;
-    import android.widget.AdapterView;
     import android.widget.Button;
     import android.widget.EditText;
     import android.widget.ImageView;
@@ -30,11 +29,11 @@
     import com.google.firebase.storage.UploadTask;
     import java.util.ArrayList;
 
-    import br.dudu9999.com.qualprova.Fragmentos.ConfiguracaoFireBase;
-    import br.dudu9999.com.qualprova.Fragmentos.MyApplication;
-    import br.dudu9999.com.qualprova.Fragmentos.Prova;
+    import br.dudu9999.com.qualprova.Objetos.ConfiguracaoFireBase;
+    import br.dudu9999.com.qualprova.Objetos.MyApplication;
+    import br.dudu9999.com.qualprova.Objetos.Prova;
     import br.dudu9999.com.qualprova.R;
-    import br.dudu9999.com.qualprova.Fragmentos.Usuario;
+    import br.dudu9999.com.qualprova.Objetos.Usuario;
 
     public class TelaPerfilActivity extends AppCompatActivity {
 
@@ -55,7 +54,7 @@
         private Usuario userLogado;
         private Prova provaLocal;
         private StorageReference mStorage;
-        private String TAG = "TELACADASTRO";
+        private String TAG = "Log";
         private DatabaseReference bd;
         private FloatingActionButton fab;
 
@@ -84,7 +83,7 @@
 
             //buscando o usuario
             userLocal = ((MyApplication)getApplication()).getUser();
-            Log.d(TAG, "USUARIOLOCA" + userLocal.toString());
+//            Log.d(TAG, "USUARIOLOCA" + userLocal.toString());
 
             //firebase
             FirebaseApp.initializeApp(getBaseContext());
@@ -96,11 +95,8 @@
 
             //mstorage pra foto
             mStorage = FirebaseStorage.getInstance().getReference();
-
             mProgressDialog = new ProgressDialog(this);
-
             select_image_C.setOnClickListener(new View.OnClickListener(){
-
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_PICK);
@@ -109,13 +105,6 @@
                 }
             });
 
-//            if (userLogado.equals(!null)){
-//              (((MyApplication)getApplication()).getUser().getEmail().toString()) ;
-//                //(MyApplication)getApplication()).setUser(u)
-//            }
-
-
-           // final DatabaseReference finalBd = bd;
             btnCadastrar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -157,10 +146,12 @@
 
                     if(usu.isEmpty()) {
                         salvarUsuario(u);
+                        Toast.makeText(TelaPerfilActivity.this, "Perfil cadastrado com sucesso", Toast.LENGTH_LONG).show();
                     }else{
                         //bd.child(u.getUID()).setValue(u);
                         u.setUID(usu.get(0).getUID());
                         salvarUsuarioAlterar(u);
+                        Toast.makeText(TelaPerfilActivity.this, "Perfil alterado com sucesso", Toast.LENGTH_LONG).show();
                     }
 
                    // finalBd.child(u.getUID()).setValue(u);
@@ -171,15 +162,10 @@
                     editor.apply();
 
 
-                    //Salvando localmente(setando cliente)
-                    ((MyApplication)getApplication()).setUser(u);
-
-                   // limpar();
 
 
 
 
-                    Toast.makeText(TelaPerfilActivity.this, "Cadastro Efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(TelaPerfilActivity.this, TelaInicioActivity.class);
                     if ((userLocal.getTipo().toString()).equals("Professor")){
                         i.putExtra("selectTipo","Professor");
@@ -189,15 +175,20 @@
 
 
 
+                    Intent iTelaCad = new Intent(TelaPerfilActivity.this, TelaInicioActivity.class);
+                    Bundle bundleParametros = new Bundle();
+                    bundleParametros.putString("usuariop", userLocal.getNome());
+                    iTelaCad.putExtras(bundleParametros);
+
+                    //Salvando localmente(setando cliente)
+                    ((MyApplication)getApplication()).setUser(u);
+
+                    limpar();
+
                     startActivity(i);
 
                 }
             });//fim do btncadastrar
-
-
-
-
-            ///carlos
 
             bd.orderByChild("email").equalTo( ( (MyApplication)getApplication()).getUser().getEmail().toString()).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -210,6 +201,7 @@
                         usu.add(u);
                     }
                     if(!usu.isEmpty()) {
+
                         Log.d("USUARIOS", "USUARIO: " + usu.toString());
                         txtEmail.setText(usu.get(0).getEmail());
                         txtNome.setText(usu.get(0).getNome());
@@ -217,27 +209,27 @@
                         txtColegio.setText(usu.get(0).getColegio());
                         txtCPF.setText(usu.get(0).getCpf());
                         txtTurma.setText(usu.get(0).getTurma());
-                        //spTipo.getSelectedItem();
-
-                        //u.setTipo(spTipo.getSelectedItem().toString());
-                        //spTipo.setSelection(Integer.parseInt(usu.get(0).getTipo()));
-
-                        spTipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                usu.get(0).getTipo();
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-
-                            }
-                        });
+                        Log.d("USUARIOS", "USUARIO: "+"sp1" + spTipo);
+                        Log.d("USUARIOS", "USUARIO: "+"sp2" + spTipo.toString());
+                        Log.d("USUARIOS", "USUARIO: "+"sp3" + spTipo.getTextAlignment());
+                        Log.d("USUARIOS", "USUARIO: "+"sp4" + spTipo.getTextDirection());
 
 
+                        if (spTipo.equals("Professor")){
+                           // spTipo.setSelection(usu.get(2).getTipo());
+                            spTipo.setSelection(2);
+                            Log.d("USUARIOS", "USUARIO: "+"sp5 " + usu.toString());
+
+                        }else{
+                            Log.d("USUARIOS", "USUARIO: "+"sp6 " + usu.toString());
+
+                            spTipo.setSelection(1);
+                        }
 
 
+                        Log.d("USUARIOS", "USUARIO: "+"sp7 " + usu.toString());
 
+                        Log.d("USUARIOS", "USUARIO: "+"sp8 " + spTipo.getSelectedItem().toString());
 
                     }//fecha if
                 }//fecha on data change
@@ -248,49 +240,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-    //
-    //       // parte do carlos
-    //        bd.addValueEventListener(new ValueEventListener() {
-    //            @Override
-    //            public void onDataChange(DataSnapshot dataSnapshot) {
-    //               // usuarios.clear();
-    //                for(DataSnapshot data: dataSnapshot.getChildren()){
-    //                    Usuario u = data.getValue(Usuario.class);
-    //
-    //                    u.setUID(data.getKey()); //Colocando key manualmente no objeto
-    //                    usu.add(u);
-    //
-    //                }
-    //                      Log.d("TAG USUARIOS2",usu.toString());
-    //
-    //               // if(!userLocal.isEmpty()) {
-    //                  if(userLocal != null) {
-    //                    //Log.d("CLIENTES", "CLIENTES: " + cli.get(0).toString());
-    //                    txtEmail.setText(userLocal.getEmail());
-    //                    txtSenha.setText(userLocal.getSenha());
-    //                    txtNome.setText(userLocal.getNome());
-    //                    txtColegio.setText(userLocal.getColegio());
-    //                    txtCPF.setText(userLocal.getCpf());
-    //                   //spTipo.setSelected(userLocal.getTipo());
-    //                    txtTurma.setText(userLocal.getTurma());
-    //
-    //                  }
-    //            }
-    //            @Override
-    //            public void onCancelled(DatabaseError databaseError) {
-    //            }
-    //        });
-    //
         }//fecha oncreate
 
 
@@ -299,8 +248,7 @@
             try {
                 //Alterando através da chave(key) no firebase setando o novo valor
                 bd.child(u.getUID()).setValue(u);
-                Toast.makeText(TelaPerfilActivity.this, "Perfil alterado com sucesso", Toast.LENGTH_LONG).show();
-
+                Log.d("USUARIOS", "USUARIO: "+"Perfil Alterado " + u.toString());
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -311,8 +259,7 @@
         private boolean salvarUsuario (Usuario u) {
             try {
                 bd.push().setValue(u);
-                Toast.makeText(TelaPerfilActivity.this, "Perfil inserido com sucesso", Toast.LENGTH_LONG).show();
-
+                Log.d("USUARIOS", "USUARIO: "+"Perfil criado " + u.toString());
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();

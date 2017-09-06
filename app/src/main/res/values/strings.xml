@@ -3,6 +3,11 @@
     <string name="title_activity_tela_inicio">Inicio</string>
     <string name="bot_add">+</string>
 
+    // Nomes
+    <string name="btn_salvar_nome">Salvar</string>
+    <string name="btn_enviar_lemb">Enviar Lembrete</string>
+    <string name="Prova">Prova</string>
+
     // Alerts
     <string name="alert_titulo">Confirmação</string>
     <string name="alert_alterar_msg">Voce tem certeza que deseja alterar</string>
@@ -17,6 +22,8 @@
     <string name="toast_sucesso_Sucesso_ao_logar">Login efetuado com sucesso</string>
     <string name="toast_erro_dados">Dados não preenchidos!</string>
     <string name="toast_sucesso_remocao">Prova removida com sucesso</string>
+    <string name="hello_world">Qual Prova?</string>
+    <string name="action_settings">Configuração</string>
 
 
     <string-array name="edtTipo">

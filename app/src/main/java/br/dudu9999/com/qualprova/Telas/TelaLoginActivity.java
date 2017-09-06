@@ -15,8 +15,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import br.dudu9999.com.qualprova.Fragmentos.MyApplication;
-import br.dudu9999.com.qualprova.Fragmentos.Usuario;
+import br.dudu9999.com.qualprova.Objetos.MyApplication;
+import br.dudu9999.com.qualprova.Objetos.Usuario;
 import br.dudu9999.com.qualprova.R;
 
 
@@ -26,13 +26,15 @@ public class TelaLoginActivity extends AppCompatActivity {
     private Usuario userLogado;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private EditText txtNomeLogin;
     private EditText txtEmailLogin;
     private EditText txtSenhaLogin;
     private Button btnLogin;
     private Button btnCriarConta;
-    private String TAG = "TAGLOGIN";
+    private String TAG = "Log";
     private ProgressBar progress;
     private String salvaSenha;
+    private String salvaNome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class TelaLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //referencias
+        txtNomeLogin = (EditText)    findViewById(R.id.edtNomeLogin);
         txtEmailLogin = (EditText)    findViewById(R.id.edtEmailLogin);
         txtSenhaLogin = (EditText)    findViewById(R.id.edtSenhaLogin);
         btnLogin =      (Button)      findViewById(R.id.btnLogin);
@@ -58,6 +61,7 @@ public class TelaLoginActivity extends AppCompatActivity {
                     userLogado = new Usuario();
                     userLogado.setUID(user.getUid());
                     userLogado.setEmail(user.getEmail());
+                    userLogado.setNome(salvaNome);
                     userLogado.setSenha(salvaSenha);
                     Log.d(TAG, "USUARIOLOG" + userLogado.getUID().toString() + userLogado.getEmail().toString());
 
@@ -94,6 +98,8 @@ public class TelaLoginActivity extends AppCompatActivity {
                     userLocal = new Usuario();
                     userLocal.setEmail(txtEmailLogin.getText().toString());
                     userLocal.setSenha(txtSenhaLogin.getText().toString());
+                    userLocal.setNome(txtNomeLogin.getText().toString());
+
 
                     mAuth.signInWithEmailAndPassword(userLocal.getEmail(), userLocal.getSenha()).addOnCompleteListener(TelaLoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -107,7 +113,7 @@ public class TelaLoginActivity extends AppCompatActivity {
 
                                 ((MyApplication) getApplication()).setUser(userLocal);
 
-                                Intent inte = new Intent(TelaLoginActivity.this, TelaInicioActivity.class);
+                                Intent inte = new Intent(TelaLoginActivity.this, TelaSplashActivity.class);
 
                                 //inte.putExtra("Email", mAuth.getCurrentUser().getEmail());
 
@@ -154,6 +160,7 @@ public class TelaLoginActivity extends AppCompatActivity {
                     userLocal = new Usuario();
                     userLocal.setEmail(txtEmailLogin.getText().toString());
                     userLocal.setSenha(txtSenhaLogin.getText().toString());
+                    userLocal.setNome(txtNomeLogin.getText().toString());
 
                     mAuth.createUserWithEmailAndPassword(userLocal.getEmail(), userLocal.getSenha())
                             .addOnCompleteListener(TelaLoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -166,6 +173,7 @@ public class TelaLoginActivity extends AppCompatActivity {
                                         //Salvando localmente(setando cliente)
                                         ((MyApplication)getApplication()).setUser(userLocal);
                                        salvaSenha = userLocal.getSenha();
+                                       salvaNome  = userLocal.getNome();
 
                                         Toast.makeText(
                                                 getBaseContext(),

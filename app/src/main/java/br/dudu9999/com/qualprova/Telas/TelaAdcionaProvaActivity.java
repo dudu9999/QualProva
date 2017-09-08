@@ -33,6 +33,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import br.dudu9999.com.qualprova.Objetos.*;
 import br.dudu9999.com.qualprova.R;
+import br.dudu9999.com.qualprova.Objetos.MyApplication;
+import br.dudu9999.com.qualprova.Objetos.Usuario;
 
 public class TelaAdcionaProvaActivity extends AppCompatActivity {
 
@@ -53,6 +55,7 @@ public class TelaAdcionaProvaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adciona);
+        Log.d("TELA_ADD", "TEST3:  " + ((MyApplication)getApplication()).getUser());
 
         //pegando objeto da telainicio
         final String selectTipo = getIntent().getStringExtra("selectTipo");

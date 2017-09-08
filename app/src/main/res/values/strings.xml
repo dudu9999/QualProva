@@ -1,12 +1,17 @@
 <resources>
     <string name="app_name">QualProva</string>
-    <string name="title_activity_tela_inicio">Inicio</string>
-    <string name="bot_add">+</string>
+    <string name="title_activity_tela_inicio">Qual Prova? - Inicio</string>
+    <string name="title_activity_tela_perfil">Qual Prova? - Perfil</string>
+    <string name="title_activity_tela_sobre">Qual Prova? - Sobre</string>
+    <string name="title_activity_tela_prova">Qual Prova? - Prova</string>
 
     // Nomes
+    <string name="Prova">Prova</string>
+
+    //Botão
     <string name="btn_salvar_nome">Salvar</string>
     <string name="btn_enviar_lemb">Enviar Lembrete</string>
-    <string name="Prova">Prova</string>
+    <string name="bot_add">+</string>
 
     // Alerts
     <string name="alert_titulo">Confirmação</string>

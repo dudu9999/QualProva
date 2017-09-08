@@ -15,21 +15,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Telas.TelaSplashActivity">
+        <activity android:name=".Telas.TelaSplashActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity android:name=".Telas.TelaInicioActivity"
             android:label="@string/title_activity_tela_inicio"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".Telas.TelaPerfilActivity"></activity>
+
+        <activity android:name=".Telas.TelaPerfilActivity"
+            android:launchMode="singleTop"
+            android:label="@string/title_activity_tela_perfil">
+        </activity>
+
         <activity android:name=".Telas.TelaLoginActivity"></activity>
-        <activity android:name=".Telas.TelaAdcionaProvaActivity"></activity>
-        <activity android:name=".Telas.TelaAboutActivity"></activity>
+
+        <activity android:name=".Telas.TelaAdcionaProvaActivity"
+            android:label="@string/title_activity_tela_prova"
+            android:launchMode="singleTop">
+        </activity>
+
+        <activity android:name=".Telas.TelaAboutActivity"
+            android:label="@string/title_activity_tela_sobre"
+            android:launchMode="singleTop">
+        </activity>
+
     </application>
 
 </manifest>

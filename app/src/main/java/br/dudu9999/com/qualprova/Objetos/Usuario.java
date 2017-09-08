@@ -6,6 +6,7 @@ package br.dudu9999.com.qualprova.Objetos;
 
 public class Usuario {
 
+    //variaveis do objeto
     private String nome;
     private String email;
     private String turma;
@@ -15,8 +16,10 @@ public class Usuario {
     private String senha;
     private String UID;
 
+    //consrrutor
     public Usuario() {}
 
+    //geters and setters
     public String getNome() {
         return nome;
     }
@@ -77,8 +80,10 @@ public class Usuario {
 
     public void setUID(String UID) { this.UID = UID; }
 
+    //metodo toString
     @Override
     public String toString() {
         return "Usuario{" + "nome='" + nome + '\'' + ", email='" + email + '\'' + ", turma='" + turma + '\'' + ", colegio='" + colegio + '\'' + ", cpf='" + cpf + '\'' + ", tipo='" + tipo + '\'' + ", senha='" + senha + '\'' + ", UID='" + UID + '\'' + '}';
     }
+
 }//fecha classe

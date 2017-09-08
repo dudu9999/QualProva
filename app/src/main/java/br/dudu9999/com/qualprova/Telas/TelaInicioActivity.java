@@ -38,13 +38,14 @@ import br.dudu9999.com.qualprova.Objetos.MyApplication;
 import br.dudu9999.com.qualprova.Objetos.Prova;
 import br.dudu9999.com.qualprova.Objetos.Usuario;
 import java.util.ArrayList;
+import java.util.List;
+
 import br.dudu9999.com.qualprova.R;
 
 
 public class TelaInicioActivity extends AppCompatActivity {
 
     private Usuario userLocal;
-    private Usuario userLogado;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -68,6 +69,7 @@ public class TelaInicioActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Permiss ();
+
         //pegando objeto da telainicio
         final String selectTipo = getIntent().getStringExtra("selectTipo");
         final String usuariop = getIntent().getStringExtra("usuariop");
@@ -76,17 +78,15 @@ public class TelaInicioActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
 //        fab.setVisibility(View.INVISIBLE);
-
-        Log.d("TELAINICIO", "TEST3:  " + ((MyApplication)getApplication()).getUser());
-
+//        Log.d("TELAINICIO", "TEST3:  " + ((MyApplication)getApplication()).getUser());
 //        if(String.valueOf(selectTipo).equals("Professor")) {
 //            fab.setVisibility(View.VISIBLE);
 //        }
-//        if(String.valueOf(selectTipo).equals("Aluno")) {
+//        if(userLocal.getTipo().equals("Professor")) {
 //            fab.setVisibility(View.INVISIBLE);
 //        }
 
-        //if -----------------------------------------------------------
+
         if (((MyApplication)getApplication()).getUser().getNome() == null){
             nomedraw = usuariop;
         }else{
@@ -95,9 +95,10 @@ public class TelaInicioActivity extends AppCompatActivity {
 
         provas = new ArrayList<>();
         adapter = new ArrayAdapter<Prova>(
-                TelaInicioActivity.this,android.R.layout.simple_list_item_1,provas
+                TelaInicioActivity.this,
+                android.R.layout.simple_list_item_1,
+                provas
         );
-
         lista_prova.setAdapter(adapter);
 
         //Firebase
@@ -105,6 +106,7 @@ public class TelaInicioActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(TelaInicioActivity.this);
         final FirebaseDatabase db = FirebaseDatabase.getInstance();
         final DatabaseReference banco = db.getReference("Banco").child("Provas");
+        final DatabaseReference bancoUser = db.getReference("Banco").child("Usuarios");
         final Usuario usuario = new Usuario();
 
 
@@ -146,10 +148,10 @@ public class TelaInicioActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Inicio").withIdentifier(0).withIcon(R.mipmap.ic_home),
-                        new PrimaryDrawerItem().withName("Perfil").withIdentifier(10).withIcon(R.mipmap.ic_user),
-                        new PrimaryDrawerItem().withName("Sobre").withIdentifier(20).withIcon(R.mipmap.ic_about),
-                        new PrimaryDrawerItem().withName("Trocar de Conta").withIdentifier(30).withIcon(R.mipmap.ic_out),
-                        new PrimaryDrawerItem().withName("Fechar App").withIdentifier(31).withIcon(R.mipmap.ic_out)
+                        new PrimaryDrawerItem().withName("Perfil").withIdentifier(1).withIcon(R.mipmap.ic_user),
+                        new PrimaryDrawerItem().withName("Sobre").withIdentifier(2).withIcon(R.mipmap.ic_about),
+                        new PrimaryDrawerItem().withName("Trocar de Conta").withIdentifier(3).withIcon(R.mipmap.ic_launcher_change),
+                        new PrimaryDrawerItem().withName("Fechar App").withIdentifier(4).withIcon(R.mipmap.ic_out)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -158,28 +160,26 @@ public class TelaInicioActivity extends AppCompatActivity {
                             case 0:
                                 Intent Ihome  = new Intent(TelaInicioActivity.this, TelaInicioActivity.class);
                                 startActivity(Ihome);
-                                Toast.makeText(getBaseContext(),"Você clicou no menu Inicio",Toast.LENGTH_LONG).show();
                                 break;
 
-                            case 10:
+                            case 1:
                                 Intent ICad = new Intent(TelaInicioActivity.this, TelaPerfilActivity.class);
                                 startActivity(ICad);
-                                Toast.makeText(getBaseContext(),"Você clicou no menu Perfil",Toast.LENGTH_LONG).show();
                                 break;
 
-                            case 20:
+                            case 2:
                                 Intent Isobre = new Intent(TelaInicioActivity.this, TelaAboutActivity.class);
                                 startActivity(Isobre);
-                                Toast.makeText(getBaseContext(),"Você clicou no menu Sobre",Toast.LENGTH_LONG).show();
                                 break;
 
-                            case 30:
+                            case 3:
                                 mAuth.signOut();
                                 finish();
                                 Intent Isair = new Intent(getApplicationContext(), TelaLoginActivity.class);
                                 startActivity(Isair);
                                 break;
-                            case 31:
+
+                            case 4:
                                 Intent intent = new Intent(Intent.ACTION_MAIN);
                                 intent.addCategory(Intent.CATEGORY_HOME);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -191,17 +191,17 @@ public class TelaInicioActivity extends AppCompatActivity {
                 }).build();
 
 
-        //Traz os dados
+        //Traz os dados das provas
         banco.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 YoYo.with(Techniques.DropOut).duration(3000).playOn(lista_prova);
                 provas.clear();
-                    for(DataSnapshot data: dataSnapshot.getChildren()){
-                        Prova p = data.getValue(Prova.class);
-                        p.setId(data.getKey()); //Colocando key manualmente no objeto
-                        provas.add(p);
-                    }
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    Prova p = data.getValue(Prova.class);
+                    p.setId(data.getKey()); //Colocando key manualmente no objeto
+                    provas.add(p);
+                }
 
                 adapter.notifyDataSetChanged();
             }
@@ -209,8 +209,6 @@ public class TelaInicioActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-
 
 
         lista_prova.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -230,20 +228,9 @@ public class TelaInicioActivity extends AppCompatActivity {
                 intent.putExtra("acao","alterar");
                 intent.putExtra("prova", prova);
 
-
-                Toast.makeText(TelaInicioActivity.this, "Clicou para editar!", Toast.LENGTH_SHORT).show();
-
-
                 startActivity(intent);
-
-
-
-
             }
         });
-
-
-
 
     }//fecha oncreate
     public void Permiss (){

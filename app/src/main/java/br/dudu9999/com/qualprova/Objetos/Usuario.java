@@ -77,5 +77,8 @@ public class Usuario {
 
     public void setUID(String UID) { this.UID = UID; }
 
-
+    @Override
+    public String toString() {
+        return "Usuario{" + "nome='" + nome + '\'' + ", email='" + email + '\'' + ", turma='" + turma + '\'' + ", colegio='" + colegio + '\'' + ", cpf='" + cpf + '\'' + ", tipo='" + tipo + '\'' + ", senha='" + senha + '\'' + ", UID='" + UID + '\'' + '}';
+    }
 }//fecha classe

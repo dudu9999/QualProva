@@ -42,6 +42,7 @@ import br.dudu9999.com.qualprova.R;
 
 
 public class TelaInicioActivity extends AppCompatActivity {
+
     private Usuario userLocal;
     private Usuario userLogado;
 
@@ -74,27 +75,23 @@ public class TelaInicioActivity extends AppCompatActivity {
         lista_prova = (ListView) findViewById(R.id.lista_prova);
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        fab.setVisibility(View.INVISIBLE);
+//        fab.setVisibility(View.INVISIBLE);
 
-        if(String.valueOf(selectTipo).equals("Professor")) {
-            fab.setVisibility(View.VISIBLE);
-        }
-        if(String.valueOf(selectTipo).equals("Aluno")) {
-            fab.setVisibility(View.INVISIBLE);
-        }
+        Log.d("TELAINICIO", "TEST3:  " + ((MyApplication)getApplication()).getUser());
+
+//        if(String.valueOf(selectTipo).equals("Professor")) {
+//            fab.setVisibility(View.VISIBLE);
+//        }
+//        if(String.valueOf(selectTipo).equals("Aluno")) {
+//            fab.setVisibility(View.INVISIBLE);
+//        }
+
         //if -----------------------------------------------------------
         if (((MyApplication)getApplication()).getUser().getNome() == null){
             nomedraw = usuariop;
         }else{
             nomedraw = ((MyApplication)getApplication()).getUser().getNome();
         }
-
-        Log.d("TELAINICIO", "TEST1:  " + selectTipo );
-        Log.d("TELAINICIO", "TEST2:  " + ((MyApplication)getApplication()).getUser().getNome() );
-        Log.d("TELAINICIO", "TEST3:  " + ((MyApplication)getApplication()).getUser());
-//        Log.d("TELAINICIO", "TEST4:  " + ((MyApplication)getApplication()).getText(0).toString());
-//        Log.d("TELAINICIO", "TEST4:  " + userLogado.getNome());
-//        Log.d("TELAINICIO", "TEST5:  " + userLocal.toString());
 
         provas = new ArrayList<>();
         adapter = new ArrayAdapter<Prova>(
@@ -115,7 +112,6 @@ public class TelaInicioActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Preencha seus dados do pessoais no perfil", Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show();
                 Intent addprov = new Intent(TelaInicioActivity.this, TelaAdcionaProvaActivity.class);
                 addprov.putExtra("acao","cadastrar");
                 Toast.makeText(TelaInicioActivity.this, "Clicou para Adicionar!", Toast.LENGTH_SHORT).show();
@@ -125,7 +121,6 @@ public class TelaInicioActivity extends AppCompatActivity {
             }
         });
 
-        //Inicio AccountHeader
         //####################### SÓ O CABEÇALHO #######################
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -150,18 +145,15 @@ public class TelaInicioActivity extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
-                        new SecondaryDrawerItem().withName("Inicio").withIdentifier(0).withIcon(R.mipmap.ic_home),
-                        new SecondaryDrawerItem().withName("Perfil").withIdentifier(10).withIcon(R.mipmap.ic_user),
-                        new SecondaryDrawerItem().withName("Sobre").withIdentifier(20).withIcon(R.mipmap.ic_about),
+                        new PrimaryDrawerItem().withName("Inicio").withIdentifier(0).withIcon(R.mipmap.ic_home),
+                        new PrimaryDrawerItem().withName("Perfil").withIdentifier(10).withIcon(R.mipmap.ic_user),
+                        new PrimaryDrawerItem().withName("Sobre").withIdentifier(20).withIcon(R.mipmap.ic_about),
                         new PrimaryDrawerItem().withName("Trocar de Conta").withIdentifier(30).withIcon(R.mipmap.ic_out),
                         new PrimaryDrawerItem().withName("Fechar App").withIdentifier(31).withIcon(R.mipmap.ic_out)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-
-                        //Intent it;
-
                         switch ((int)drawerItem.getIdentifier()){
                             case 0:
                                 Intent Ihome  = new Intent(TelaInicioActivity.this, TelaInicioActivity.class);
@@ -172,12 +164,6 @@ public class TelaInicioActivity extends AppCompatActivity {
                             case 10:
                                 Intent ICad = new Intent(TelaInicioActivity.this, TelaPerfilActivity.class);
                                 startActivity(ICad);
-
-
-//                                SharedPreferences.Editor editor = getSharedPreferences(MyApplication.MY_PREFS_NAME, MODE_PRIVATE).edit();
-//                                editor.putString("UID", u.getUID());
-//                                editor.apply();
-
                                 Toast.makeText(getBaseContext(),"Você clicou no menu Perfil",Toast.LENGTH_LONG).show();
                                 break;
 

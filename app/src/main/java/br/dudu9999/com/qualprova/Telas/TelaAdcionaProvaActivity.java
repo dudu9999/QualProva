@@ -35,6 +35,7 @@ import br.dudu9999.com.qualprova.Objetos.*;
 import br.dudu9999.com.qualprova.R;
 
 public class TelaAdcionaProvaActivity extends AppCompatActivity {
+
     private Button btnDeletar;
     private Button btn_salva_prova;
     private Button btn_enviar_prova;
@@ -105,7 +106,6 @@ public class TelaAdcionaProvaActivity extends AppCompatActivity {
 
         if (acao.equalsIgnoreCase("cadastrar")) {
             btnDeletar.setVisibility(View.INVISIBLE);
-
         }
 
         if (acao.equalsIgnoreCase("alterar")) {
@@ -292,8 +292,8 @@ public class TelaAdcionaProvaActivity extends AppCompatActivity {
 
     public void volta_tela_inicio() {
         Intent vai_tela_inicial = new Intent(TelaAdcionaProvaActivity.this, TelaInicioActivity.class);
+
         startActivity(vai_tela_inicial);
         finish();
     } // fim da volta_tela_inicio
-
 } //fecha classe

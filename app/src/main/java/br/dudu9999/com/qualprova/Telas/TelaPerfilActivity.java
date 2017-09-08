@@ -141,30 +141,18 @@
                     u.setTipo(spTipo.getSelectedItem().toString());
                     u.setTipo(userLocal.getTipo().toString());
 
-                    //u.setTipo(spTipo.getSelectedItem().toString());
-
-
                     if(usu.isEmpty()) {
                         salvarUsuario(u);
                         Toast.makeText(TelaPerfilActivity.this, "Perfil cadastrado com sucesso", Toast.LENGTH_LONG).show();
                     }else{
-                        //bd.child(u.getUID()).setValue(u);
                         u.setUID(usu.get(0).getUID());
                         salvarUsuarioAlterar(u);
                         Toast.makeText(TelaPerfilActivity.this, "Perfil alterado com sucesso", Toast.LENGTH_LONG).show();
                     }
 
-                   // finalBd.child(u.getUID()).setValue(u);
-
-
                     SharedPreferences.Editor editor = getSharedPreferences(MyApplication.MY_PREFS_NAME, MODE_PRIVATE).edit();
                     editor.putString("UID", u.getUID());
                     editor.apply();
-
-
-
-
-
 
                     Intent i = new Intent(TelaPerfilActivity.this, TelaInicioActivity.class);
                     if ((userLocal.getTipo().toString()).equals("Professor")){
@@ -172,8 +160,6 @@
                     }else{
                         i.putExtra("selectTipo","Aluno");
                     }
-
-
 
                     Intent iTelaCad = new Intent(TelaPerfilActivity.this, TelaInicioActivity.class);
                     Bundle bundleParametros = new Bundle();
@@ -216,7 +202,6 @@
 
 
                         if (spTipo.equals("Professor")){
-                           // spTipo.setSelection(usu.get(2).getTipo());
                             spTipo.setSelection(2);
                             Log.d("USUARIOS", "USUARIO: "+"sp5 " + usu.toString());
 
@@ -225,7 +210,6 @@
 
                             spTipo.setSelection(1);
                         }
-
 
                         Log.d("USUARIOS", "USUARIO: "+"sp7 " + usu.toString());
 
@@ -238,11 +222,7 @@
                 }
             });//fim bd.addValueEventListener
 
-
-
         }//fecha oncreate
-
-
 
         private boolean salvarUsuarioAlterar (Usuario u) {
             try {
@@ -295,6 +275,5 @@
                 });
             }
         }
-
 
     }

@@ -114,17 +114,6 @@ public class TelaLoginActivity extends AppCompatActivity {
                                 ((MyApplication) getApplication()).setUser(userLocal);
 
                                 Intent inte = new Intent(TelaLoginActivity.this, TelaSplashActivity.class);
-
-                                //inte.putExtra("Email", mAuth.getCurrentUser().getEmail());
-
-
-//                                if ((((MyApplication) getApplication()).getUser().getNome()).equals(null)) {
-//                                    Toast.makeText(getBaseContext(), "Preencha seus dados no perfil!", Toast.LENGTH_LONG).show();
-//                                }else{
-//                                    Toast.makeText(getBaseContext(), "Entou\nSeja bem vindo.", Toast.LENGTH_LONG).show();
-//                                      mBtExcluir.setVisibility(View.VISIBLE);
-//                                      mBtSalvar.setVisibility(View.VISIBLE);
-//                                }
                                 startActivity(inte);
                                 finish();
 

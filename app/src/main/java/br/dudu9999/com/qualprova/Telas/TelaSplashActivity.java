@@ -8,9 +8,6 @@ import br.dudu9999.com.qualprova.R;
 
 public class TelaSplashActivity extends AppCompatActivity {
 
-    //private static int TEMPO_SPLASH = 5000;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

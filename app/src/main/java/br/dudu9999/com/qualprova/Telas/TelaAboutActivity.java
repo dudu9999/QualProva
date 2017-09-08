@@ -17,10 +17,7 @@ public class TelaAboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-
         facebook = (Button)findViewById(R.id.Facebook);
-       // instagram = (ImageView) v.findViewById(R.id.Instagram);
-       //twitter = (ImageView) v.findViewById(R.id.Twitter);
     }
 
     public void Facebookclick(View view) {
